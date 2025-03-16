@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "react-router dev",
+    "dev": "vite dev",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -13,8 +13,10 @@
     "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
     "@react-router/node": "^7.3.0",
     "@tailwindcss/vite": "^4.0.14",
+    "autoprefixer": "^10.4.21",
     "firebase": "^11.4.0",
     "isbot": "^5",
+    "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router": "^7.3.0",
