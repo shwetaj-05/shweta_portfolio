@@ -1,47 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { auth } from "../config/fire-base";
-import { createUserWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import { googleProvider } from "../config/fire-base";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import "../styles/auth.css";
 
 export const SignIn = () => {
+  const [email, SetEmail] = useState("");
+  const [password, SetPassword] = useState("");
+  const [error, SetError] = useState("");
+  const [isLogged, SetisLogged] = useState(false);
+  const navigate = useNavigate();
 
-    const [ email, SetEmail ] = useState("");
-    const [ password, SetPassword ] = useState("");
-
-    const signIn = async () => {
-        try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            console.log(auth.currentUser.email);
-        } catch (error) {
-            console.log(error);
-        }
-    }  
-
-    const signInGoogle = async () => {
-        try {
-            await signInWithPopup(auth, googleProvider);
-            console.log(auth.name);
-        } catch (error) {
-            console.log(error);
-        }
+  const signIn = async () => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      console.log(auth.currentUser.email);
+      SetisLogged(true);
+    } catch (error) {
+      SetError(error.code);
+      console.log(error.code);
+      console.log(error.message);
     }
+  };
 
-    const logOut = async () => {
-        try {
-            await signOut(auth);
-            console.log("User signed out")
-        } catch (error) {
-            console.log(error);
-        }
+  const signInGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      console.log(auth.name);
+      SetisLogged(true);
+    } catch (error) {
+      SetError(error.code);
+      console.log(error.code);
+      console.log(error.message);
     }
+  };
 
-    return (
-        <>
-            <div className="flex flex-col gap-5 justify-center align-middle border-1 p-10 bg-white/10 backdrop-blur-md">
+  useEffect(() => {
+    if (isLogged) navigate("/home");
+  }, [isLogged]);
+
+  return (
+    <div className="flex justify-center align-middle">
+      <div className="mt-20 w-110 flex flex-col gap-5 justify-center align-middle border-1 p-10 bg-white/10 backdrop-blur-md">
         <input
-          className="p-3 text-2xl border-2 mt-4 mb-8 focus:border-transparent"
+          className="w-full p-3 text-2xl border-2 mt-4 mb-8 focus:border-transparent"
           type="email"
           placeholder="enter email"
           onChange={(e) => SetEmail(e.target.value)}
@@ -67,11 +74,16 @@ export const SignIn = () => {
         </button>
 
         <p>Already have an account? </p>
-        <Link 
-            className="mb-4 h-12 px-5 py-3 text-amber-300 text-base font-medium rounded-lg border border-transparent bg-[#1a1a1a] transition duration-200 hover:border-[#646cff] focus:outline focus:outline-4 focus:outline-offset-2 focus:outline-[auto]"
-            to={'/login'} > Log in
+        <Link
+          className="mb-4 h-12 px-5 py-3 text-center text-amber-300 text-base font-medium rounded-lg border border-transparent bg-[#1a1a1a] transition duration-200 hover:border-[#646cff] focus:outline focus:outline-4 focus:outline-offset-2 focus:outline-[auto]"
+          to={"/login"}
+        >
+          {" "}
+          Log in
         </Link>
+
+        <p className="text-red-800">{error}</p>
       </div>
-        </>
-    )
-}
+    </div>
+  );
+};

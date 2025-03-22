@@ -1,23 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "../config/fire-base";
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut,
 } from "firebase/auth";
 import { googleProvider } from "../config/fire-base";
 import "../styles/auth.css";
-import { Link } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
 
 export const LogIn = () => {
   const [email, SetEmail] = useState("");
   const [password, SetPassword] = useState("");
+  const [error, SetError] = useState("");
+  const [isLogged, SetisLogged] = useState(false);
+  const navigate = useNavigate();
 
   const logIn = async () => {
+    if (password.length <= 6) {
+      SetError("Password length should be minimum 6");
+    }
+    const userCred = await signInWithEmailAndPassword(auth, email, password)
     try {
-      signInWithEmailAndPassword(auth, email, password);
-      console.log(auth.currentUser.email);
+      console.log(userCred);
+      SetisLogged(true);
     } catch (error) {
       console.log(error);
     }
@@ -25,25 +30,25 @@ export const LogIn = () => {
 
   const logInGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const userCred = await signInWithPopup(auth, googleProvider);
+      console.log(userCred);
       console.log(auth.name);
+      SetisLogged(true);
     } catch (error) {
-      console.log(error);
+      SetError(error.code);
+      console.log(error.code);
+      console.log(error.message);
     }
   };
 
-  const logOut = async () => {
-    try {
-      await signOut(auth);
-      console.log("User signed out");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    if( isLogged )
+      navigate("/home");
+  }, [isLogged]);
 
   return (
-    <>
-      <div className="flex flex-col gap-5 justify-center align-middle border-1 p-10 bg-white/10 backdrop-blur-md">
+    <div className="flex justify-center align-middle">
+      <div className="mt-20 w-110 flex flex-col gap-5 justify-center align-middle border-1 p-10 bg-white/10 backdrop-blur-md">
         <input
           className="p-3 text-2xl border-2 mt-4 mb-8 focus:border-transparent"
           type="email"
@@ -71,11 +76,16 @@ export const LogIn = () => {
         </button>
 
         <p>Don't have an account? </p>
-        <Link 
-            className="mb-4 h-12 px-5 py-3 text-amber-300 text-base font-medium rounded-lg border border-transparent bg-[#1a1a1a] transition duration-200 hover:border-[#646cff] focus:outline focus:outline-4 focus:outline-offset-2 focus:outline-[auto]"
-            to={'/signin'} > Sign in
+        <Link
+          className="mb-4 h-12 px-5 py-3 text-amber-300 text-center font-medium rounded-lg border border-transparent bg-[#1a1a1a] transition duration-200 hover:border-[#646cff] focus:outline focus:outline-4 focus:outline-offset-2 focus:outline-[auto]"
+          to={"/signin"}
+        >
+          {" "}
+          Sign in
         </Link>
       </div>
-    </>
+
+      <p className="mt-3 text-red-700">{error}</p>
+    </div>
   );
 };

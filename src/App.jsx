@@ -1,7 +1,7 @@
-import "./App.css"
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LogIn } from "./components/LogIn";
 import { SignIn } from "./components/SignIn";
+import Home from "./components/Home";
 
 function App() {
 
@@ -18,6 +18,10 @@ function App() {
       {
         path: "/signin",
         element: <SignIn />
+      },
+      {
+        path: "/home",
+        element: <Home />
       }
     ]
   )
