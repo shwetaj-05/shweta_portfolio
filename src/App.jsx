@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { LogIn } from "./components/LogIn";
-import { SignIn } from "./components/SignIn";
-import Home from "./components/Home";
+import { LogIn } from "./pages/LogIn";
+import { SignIn } from "./pages/SignIn";
+import Loader from "./pages/Loader";
+import Home from "./pages/Home";
 
 function App() {
 
@@ -18,6 +19,10 @@ function App() {
       {
         path: "/signin",
         element: <SignIn />
+      },
+      {
+        path: "/loader",
+        element: <Loader />
       },
       {
         path: "/home",

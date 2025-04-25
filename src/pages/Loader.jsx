@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/auth.css";
 
-const Home = () => {
+const Loader = () => {
   return (
     <div className="w-screen h-screen">
       <video
@@ -16,4 +16,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Loader;
