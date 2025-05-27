@@ -13,8 +13,8 @@ const Heroes = () => {
              position as web & app cord in mindspark'24 which is a national level technical fest. </p>
         <div className='mt-10'>
             <ul className='mt-4'>
-                <li className='inline-block mx-2'><a href="git"><img className='w-13 h-13   ' src='assets/GithubIcon.png' /></a></li>
-                <li className='inline-block mx-2'><a href="link"><img className='w-13 h-13' src='assets/LinkedinIcon.jpeg' /></a></li>
+                <li className='inline-block mx-2'><a href="https://github.com/shwetaj-05"><img className='w-13 h-13   ' src='assets/GithubIcon.png' /></a></li>
+                <li className='inline-block mx-2'><a href="https://www.linkedin.com/in/shweta-jadhav-837820284/"><img className='w-13 h-13' src='assets/LinkedinIcon.jpeg' /></a></li>
             </ul>
         </div>
       </div>
